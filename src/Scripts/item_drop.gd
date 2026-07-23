@@ -6,15 +6,14 @@ const ITEM_DROP_SCENE: PackedScene = preload("res://Scenes/item_drop.tscn")
 const MIN_MOVE_SPEED: float = 50.0
 const PICKUP_THRESHOLD: float = 5.0
 
-
-@export var item_drops: Dictionary[StringName, Texture2D] = {
-	&"wood": null,
-	&"stone": null
+@export var item_drops: Dictionary[GameManager.Item, Texture2D] = {
+	GameManager.Item.WOOD: null,
+	GameManager.Item.STONE: null
 }
 
 
 # Item configuration
-var item: StringName
+var item: GameManager.Item
 var amount: int = 1
 var pickup_distance: float = 100.0
 var move_speed: float = 200.0
@@ -28,7 +27,7 @@ var collected: bool = false
 var player: CharacterBody2D
 
 
-static func setup(item_name: StringName, global_pos: Vector2, item_count: int = 1, distance: float = 100.0, speed: float = 200.0, offset: float = 20.0) -> ItemDrop:
+static func setup(item_name: GameManager.Item, global_pos: Vector2, item_count: int = 1, distance: float = 100.0, speed: float = 200.0, offset: float = 20.0) -> ItemDrop:
 	var drop: ItemDrop = ITEM_DROP_SCENE.instantiate()
 
 	drop.item = item_name
