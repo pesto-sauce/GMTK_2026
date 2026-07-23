@@ -1,23 +1,17 @@
-extends  Node2D
+extends Node2D
 
-signal lodge_upgraded(new_tier: int)
-signal upgrade_failed(reason: String)
 
 var tier: int = 0
 var max_tier: int = 2
 
 var upgrade_costs := [
 	{},
-	{"wood": 10, "stone": 5},
-	{"wood": 20, "stone": 10},
+	{GameManager.Item.WOOD: 10, GameManager.Item.STONE: 5},
+	{GameManager.Item.WOOD: 20, GameManager.Item.STONE: 10},
 ]
-var resources := {
-	"wood": 0,
-	"stone": 0,
-}
 
 func _process(delta: float) -> void:
-	$resources.text = str("resources: ", resources)
+	$resources.text = str("resources: ", GameManager.player_inventory)
 
 	if tier >= max_tier:
 		$UpgradeButton.disabled = true
@@ -26,15 +20,13 @@ func _process(delta: float) -> void:
 		$UpgradeButton.disabled = false
 		$cost.text = str("cost: ", upgrade_costs[tier + 1])
 
-func add_resource(resource_name, amount):
-	resources[resource_name] += amount
 
 func can_upgrade() -> bool:
 	var cost = upgrade_costs[tier + 1]
-	for resources_name in cost:
-		if resources.get(resources_name,0) < cost[resources_name]:
-			return false
-	return true
+	for resource in cost:
+		if GameManager.inv_has_item(resource, cost[resource]):
+			return true
+	return false
 
 func try_upgrade() -> bool:
 	if tier >= max_tier:
@@ -45,8 +37,8 @@ func try_upgrade() -> bool:
 		return false
 
 	var cost = upgrade_costs[tier + 1]
-	for resources_name in cost:
-		resources[resources_name] -= cost[resources_name]
+	for resource in cost:
+		GameManager.inv_remove_item(resource, cost[resource])
 
 	tier += 1
 	return true
@@ -59,7 +51,7 @@ func _on_button_pressed() -> void:
 		print("cant")
 
 func _on_button_2_pressed() -> void:
-	add_resource("wood",1)
+	GameManager.inv_add_item(GameManager.Item.WOOD, 1)
 
 func _on_button_3_pressed() -> void:
-	add_resource("stone",1)
+	GameManager.inv_add_item(GameManager.Item.STONE, 1)
