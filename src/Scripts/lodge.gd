@@ -41,7 +41,7 @@ func try_upgrade() -> bool:
 		GameManager.inv_remove_item(resource, cost[resource])
 	
 	tier += 1
-	SignalBus.lodge_upgraded(tier)
+	SignalBus.lodge_upgraded.emit(tier)
 	
 	return true
 

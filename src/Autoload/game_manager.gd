@@ -1,5 +1,8 @@
 extends Node
 
+var time: float
+var day: int
+
 enum Item {
 	WOOD,
 	STONE,
