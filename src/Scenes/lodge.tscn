@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://ctsqu7r3hgdhl"]
+
+[ext_resource type="Script" uid="uid://bkqc6ysm53n88" path="res://Scripts/lodge.gd" id="1_63xie"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kcs4j"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kcs4j"]
+size = Vector2(128, 128)
+
+[node name="Lodge" type="Node2D" unique_id=615753691]
+script = ExtResource("1_63xie")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1153458897]
+texture = SubResource("PlaceholderTexture2D_kcs4j")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=854844804]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1758297425]
+shape = SubResource("RectangleShape2D_kcs4j")
+debug_color = Color(0.22352941, 0, 1, 0.41960785)
+
+[node name="LodgeLabel" type="Label" parent="." unique_id=1577311534]
+offset_left = -46.0
+offset_top = -24.0
+offset_right = 39.0
+offset_bottom = 21.0
+theme_override_font_sizes/font_size = 32
+text = "lodge"
+
+[node name="resources" type="Label" parent="." unique_id=1852063731]
+offset_left = -161.0
+offset_top = -164.0
+offset_right = 163.0
+offset_bottom = -119.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "lodge"
+horizontal_alignment = 1
+
+[node name="cost" type="Label" parent="." unique_id=1932219874]
+offset_left = -165.0
+offset_top = 72.0
+offset_right = 159.0
+offset_bottom = 117.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "cost: "
+horizontal_alignment = 1
+
+[node name="UpgradeButton" type="Button" parent="." unique_id=628588798]
+offset_left = -38.0
+offset_top = -108.0
+offset_right = 35.0
+offset_bottom = -77.0
+text = "upgrade"
+
+[node name="AddWood" type="Button" parent="." unique_id=12459273]
+offset_left = 85.0
+offset_top = -48.0
+offset_right = 169.0
+offset_bottom = -17.0
+text = "add wood"
+
+[node name="AddStone" type="Button" parent="." unique_id=305130860]
+offset_left = 83.0
+offset_top = 7.0
+offset_right = 167.0
+offset_bottom = 38.0
+text = "add stone"
+
+[connection signal="pressed" from="UpgradeButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="AddWood" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="AddStone" to="." method="_on_button_3_pressed"]
