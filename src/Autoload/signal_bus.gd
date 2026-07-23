@@ -2,8 +2,8 @@ extends Node
 
 @warning_ignore_start("unused_signal")
 
-signal item_add_to_inv(item: GameManager.Item, amount: int)
-signal item_remove_from_inv(item: GameManager.Item, amount: int)
-
+# lodge
+signal lodge_upgraded(new_tier: int)
+signal upgrade_failed(reason: String)
 
 @warning_ignore_restore("unused_signal")
