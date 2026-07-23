@@ -30,25 +30,23 @@ func can_upgrade() -> bool:
 
 func try_upgrade() -> bool:
 	if tier >= max_tier:
-		print("max level already")
+		SignalBus.upgrade_failed.emit("max level already")
 		return false
 	if not can_upgrade():
-		print("not enough resources")
+		SignalBus.upgrade_failed.emit("not enough resources")
 		return false
 
 	var cost = upgrade_costs[tier + 1]
 	for resource in cost:
 		GameManager.inv_remove_item(resource, cost[resource])
-
+	
 	tier += 1
+	SignalBus.lodge_upgraded(tier)
+	
 	return true
 
 func _on_button_pressed() -> void:
-	if can_upgrade():
-		print("you can upgrade")
-		try_upgrade()
-	else:
-		print("cant")
+	try_upgrade()
 
 func _on_button_2_pressed() -> void:
 	GameManager.inv_add_item(GameManager.Item.WOOD, 1)
