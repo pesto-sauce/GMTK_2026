@@ -1,6 +1,23 @@
 extends StaticBody2D
 class_name Interactable
 
+@export var drop_item: GameManager.Item = GameManager.Item.WOOD
+@export var drop_amount: int = 1
+
+var can_drop: bool = true
+
+
+func _ready() -> void:
+	if drop_amount <= 0:
+		push_error("invalid parms set in editor.")
+
+	SignalBus.day_changed.connect(_on_day_changed)
+
+
+func _on_day_changed(day: int) -> void:
+	print("Day changed to: ", day)
+	can_drop = true
+
 func _on_detection_box_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		SignalBus.context_update.emit(self , false)
@@ -12,13 +29,13 @@ func _on_detection_box_body_entered(body: Node2D) -> void:
 
 func interact() -> void:
 	print("ineteracted")
-	test_drop()
+	if can_drop:
+		test_drop()
 
 func test_drop() -> void:
-	var item = ItemDrop.setup(GameManager.Item.WOOD, global_position, 50, 500)
+	var item = ItemDrop.setup(drop_item, global_position, drop_amount, 500)
 
 	var holder = get_tree().root
 
 	holder.add_child(item)
-
-	call_deferred("queue_free")
+	can_drop = false

@@ -17,6 +17,8 @@ func _process(delta: float) -> void:
 		time -= 1.0
 		day += 1
 
+		SignalBus.day_changed.emit(1)
+
 	# Send time to GameManager in 0-24 hour scale
 	GameManager.time = time * 24.0
 	GameManager.day = day

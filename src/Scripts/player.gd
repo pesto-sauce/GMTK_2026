@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 
+var last_dir: Vector2 = Vector2.DOWN
 var current_context = null # Used by the context button to call current_context.interact()
 
 func _ready() -> void:
@@ -20,6 +21,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
+
+	handle_animation(direction)
+	
 	if direction:
 		velocity = direction * SPEED
 	else:
@@ -33,3 +37,24 @@ func _on_context_update(interactable, entered: bool) -> void:
 	else:
 		if current_context == interactable:
 			current_context = null
+
+
+func handle_animation(dir: Vector2) -> void:
+	if dir != Vector2.ZERO:
+		last_dir = dir
+
+		if abs(dir.x) > abs(dir.y):
+			$AnimatedSprite2D.play("side_walk")
+			$AnimatedSprite2D.flip_h = dir.x < 0
+		elif dir.y < 0:
+			$AnimatedSprite2D.play("back_walk")
+		else:
+			$AnimatedSprite2D.play("forward_walk")
+	else:
+		if abs(last_dir.x) > abs(last_dir.y):
+			$AnimatedSprite2D.play("side_idle")
+			$AnimatedSprite2D.flip_h = last_dir.x < 0
+		elif last_dir.y < 0:
+			$AnimatedSprite2D.play("back_idle")
+		else:
+			$AnimatedSprite2D.play("forward_idle")
