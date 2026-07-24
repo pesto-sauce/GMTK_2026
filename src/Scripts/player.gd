@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-func _on_context_update(interactable: Area2D, entered: bool) -> void:
+func _on_context_update(interactable, entered: bool) -> void:
 	if entered:
 		current_context = interactable
 	else:

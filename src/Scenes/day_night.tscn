@@ -12,4 +12,3 @@ gradient = SubResource("Gradient_mvrpg")
 [node name="day-night" type="CanvasModulate" unique_id=140441352]
 script = ExtResource("1_mvrpg")
 gradient_texture = SubResource("GradientTexture1D_t3a5w")
-day_length_in_minutes = 0.5

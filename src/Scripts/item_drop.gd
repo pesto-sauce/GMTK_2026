@@ -6,11 +6,7 @@ const ITEM_DROP_SCENE: PackedScene = preload("res://Scenes/item_drop.tscn")
 const MIN_MOVE_SPEED: float = 50.0
 const PICKUP_THRESHOLD: float = 5.0
 
-@export var item_drops: Dictionary[GameManager.Item, Texture2D] = {
-	GameManager.Item.WOOD: null,
-	GameManager.Item.STONE: null
-}
-
+@export var item_drops: Dictionary[GameManager.Item, Texture2D] = {}
 
 # Item configuration
 var item: GameManager.Item
@@ -53,7 +49,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player") as CharacterBody2D
-
+	
 	if player == null:
 		return
 
@@ -80,6 +76,6 @@ func pickup() -> void:
 		return
 
 	collected = true
-
-	SignalBus.item_add_to_inv.emit(item, amount)
+ 
+	GameManager.inv_add_item(item, amount)
 	call_deferred("queue_free")

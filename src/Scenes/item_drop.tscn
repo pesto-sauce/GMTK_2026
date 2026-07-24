@@ -5,9 +5,9 @@
 
 [node name="item_drop" type="Node2D" unique_id=8068003]
 script = ExtResource("1_qhkgj")
-item_drops = Dictionary[StringName, Texture2D]({
-&"stone": ExtResource("2_20isf"),
-&"wood": ExtResource("2_20isf")
+item_drops = Dictionary[int, Texture2D]({
+0: ExtResource("2_20isf"),
+1: null
 })
 
 [node name="sprite" type="Sprite2D" parent="." unique_id=1795853048]
