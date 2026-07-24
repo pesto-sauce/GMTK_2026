@@ -10,7 +10,7 @@ var upgrade_costs := [
 	{GameManager.Item.WOOD: 20, GameManager.Item.STONE: 10},
 ]
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$resources.text = str("resources: ", GameManager.player_inventory)
 
 	if tier >= max_tier:
@@ -23,10 +23,12 @@ func _process(delta: float) -> void:
 
 func can_upgrade() -> bool:
 	var cost = upgrade_costs[tier + 1]
+
 	for resource in cost:
-		if GameManager.inv_has_item(resource, cost[resource]):
-			return true
-	return false
+		if not GameManager.inv_has_item(resource, cost[resource]):
+			return false
+
+	return true
 
 func try_upgrade() -> bool:
 	if tier >= max_tier:
