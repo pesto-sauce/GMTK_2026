@@ -10,7 +10,7 @@ var upgrade_costs := [
 	{GameManager.Item.WOOD: 20, GameManager.Item.STONE: 10},
 ]
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$resources.text = str("resources: ", GameManager.player_inventory)
 
 	if tier >= max_tier:
