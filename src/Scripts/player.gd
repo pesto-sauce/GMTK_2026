@@ -1,6 +1,10 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
+const MOVEMENT_SCALE: int = 50
+const SPEED = 300.0 * MOVEMENT_SCALE
+
+@onready var river_tile_map = $"../terrain_layers/river-water"
+@onready var water_overlay: Sprite2D = $"water_overlay"
 
 var last_dir: Vector2 = Vector2.DOWN
 var current_context = null # Used by the context button to call current_context.interact()
@@ -19,13 +23,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			push_warning("Current context does not have an interact() method.")
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 
 	handle_animation(direction)
 	
 	if direction:
-		velocity = direction * SPEED
+		velocity = direction * SPEED * delta
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 
@@ -40,6 +44,11 @@ func _on_context_update(interactable, entered: bool) -> void:
 
 
 func handle_animation(dir: Vector2) -> void:
+	if is_player_in_water():
+		water_overlay.visible = true
+	else:
+		water_overlay.visible = false
+
 	if dir != Vector2.ZERO:
 		last_dir = dir
 
@@ -58,3 +67,11 @@ func handle_animation(dir: Vector2) -> void:
 			$AnimatedSprite2D.play("back_idle")
 		else:
 			$AnimatedSprite2D.play("forward_idle")
+
+
+func is_player_in_water() -> bool:
+	var tile_pos = river_tile_map.local_to_map(river_tile_map.to_local(global_position))
+
+	var tile_data = river_tile_map.get_cell_tile_data(tile_pos)
+
+	return tile_data != null and tile_data.get_custom_data("is_water")
